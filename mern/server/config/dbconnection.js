@@ -1,6 +1,3 @@
-// load env vars
-if (process.env.NODE_ENV != "production") require("dotenv").config();
-
 const mongoose = require("mongoose");
 
 async function dbConnection() {

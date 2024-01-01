@@ -1,24 +1,42 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
-import notesStore from "../stores/notesStore.js";
-import Notes from "./Notes.js";
-import UpdateForm from "./UpdateForm.js";
-import CreateForm from "./CreateForm.js";
+import { BrowserRouter, Link, Route, Routes } from "react-router-dom";
+import LoginPage from "../pages/LoginPage.js";
+import NotesPage from "../pages/NotesPage.js";
+import SignupPage from "../pages/SignupPage.js";
+import RequireAuth from "./RequireAuth.js";
+import LogoutPage from "../pages/LogoutPage.js";
 
 function App() {
-	// store
-	const store = notesStore();
-
-	// useEffect
-	useEffect(() => {
-		store.fetchNotes();
-	}, []);
-
 	return (
 		<div className="App">
-			<CreateForm />
-			<Notes />
-			<UpdateForm />
+			<BrowserRouter>
+				<ul>
+					<li>
+						<Link to="/">Home</Link>
+					</li>
+					<li>
+						<Link to="/login">Login</Link>
+					</li>
+					<li>
+						<Link to="/signup">Signup</Link>
+					</li>
+					<li>
+						<Link to="/logout">Logout</Link>
+					</li>
+				</ul>
+				<Routes>
+					<Route
+						index
+						element={
+							<RequireAuth>
+								<NotesPage />
+							</RequireAuth>
+						}
+					/>
+					<Route path="/login" element={<LoginPage />} />
+					<Route path="/signup" element={<SignupPage />} />
+					<Route path="/logout" element={<LogoutPage />} />
+				</Routes>
+			</BrowserRouter>
 		</div>
 	);
 }
